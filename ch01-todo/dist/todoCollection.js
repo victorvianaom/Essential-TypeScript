@@ -22,6 +22,9 @@ class TodoCollection {
         //return this.todoItems.find(item => item.id === id);//commented this to add the bellow
         return this.itemMap.get(id);
     }
+    getTodoItems(includeComplete) {
+        return [...this.itemMap.values()].filter(item => includeComplete || !item.complete);
+    }
     markComplete(id, complete) {
         const todoItem = this.getTodoById(id);
         if (todoItem) {
