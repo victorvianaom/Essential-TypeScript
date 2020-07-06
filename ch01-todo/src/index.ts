@@ -13,4 +13,8 @@ console.log(`${collection.userName}'s Todo List`);
 
 let newId = collection.addTodo("Go for run");
 let todoItem = collection.getTodoById(newId);
-console.log(JSON.stringify(todoItem));
+//console.log(JSON.stringify(todoItem));
+todoItem.printDetails();
+
+//collection.addTodo(todoItem); /// this was just an example that throws an error
+
