@@ -23,7 +23,7 @@ export class TodoCollection {
     }
 
     getTodoItems(includeComplete: boolean) : TodoItem[] {
-        return [...this.itemMap.values()].filter(item => includeComplete || !item.complete);
+        return [...this.itemMap.values()].filter(item => includeComplete || !item.complete);// uses javascript spread operator...
     }
 
     markComplete(id: number, complete: boolean) {
@@ -31,5 +31,13 @@ export class TodoCollection {
         if (todoItem) {
             todoItem.complete = complete;
         }
+    }
+
+    removeComplete() {
+        this.itemMap.forEach(item => {
+            if (item.complete) {
+                this.itemMap.delete(item.id);
+            }
+        })
     }
 }
