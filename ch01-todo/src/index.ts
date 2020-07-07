@@ -8,29 +8,38 @@ let todos = [
 ];
 
 let collection = new TodoCollection("Victor", todos);
+let showCompleted = true;
 
 function displayTodoList(): void {
     console.log(`${collection.userName}'s Todo List` + `(${collection.getItemCounts().incomplete} items to do)`);
-    collection.getTodoItems(true).forEach(item => item.printDetails());
+    collection.getTodoItems(showCompleted).forEach(item => item.printDetails());
 }
 
 enum Commands {
+    Toggle = "Show/Hide Completed",
     Quit = "Quit",
-    Stay = "Stay"
+    Another = "Another"
 }
 
 function promptUser(): void {
     console.clear();
     displayTodoList();
     inquirer.prompt({
-        type: "number",//"list",
+        type: "list",
         name: "command",
         message: "Choose option",
-        choices: Object.values(Commands)
+        choices: Object.values(Commands),
+        //badProperty: true //this was just for testing if the Inquirer.js Typed Declarations were working... and it is...
     }).then(answers => {
-        if (answers["command"] !== Commands.Quit) {
-            promptUser();
+        switch (answers["command"]) {
+            case Commands.Toggle:
+                showCompleted = !showCompleted;
+                promptUser();
+                break;
         }
+        /*if (answers["command"] !== Commands.Quit) {
+            promptUser();
+        }*/
     })
 }
 
