@@ -8,7 +8,9 @@ let todos = [
 ];
 let collection = new todoCollection_1.TodoCollection("Victor", todos);
 console.clear();
+console.log(`${collection.userName}'s Todo List` + `(${collection.getItemCounts().incomplete} items to do)`);
 console.log(`${collection.userName}'s Todo List`);
+collection.removeComplete();
 collection.getTodoItems(true).forEach(item => item.printDetails());
 let newId = collection.addTodo("Go for run");
 let todoItem = collection.getTodoById(newId);

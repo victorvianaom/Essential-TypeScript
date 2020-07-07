@@ -1,5 +1,10 @@
 import { TodoItem } from "./todoItem";
 
+type ItemCounts = { // The `type` keyword is used to create a `type alias`, which is a convinient way to assign a name to a shape type.
+    total: number, // a specific combination of names and types is known as a `shape type`
+    incomplete: number
+}
+
 export class TodoCollection {
     private nextId: number = 1;
     private itemMap = new Map<number, TodoItem>();// <> between squared brackets are the types of the key value pairs in the Map
@@ -8,7 +13,7 @@ export class TodoCollection {
         todoItems.forEach(item => this.itemMap.set(item.id, item));
     }
 
-    addTodo(task: string) : number {
+    addTodo(task: string): number {
         while (this.getTodoById(this.nextId)) {
             this.nextId ++;
         }
@@ -17,12 +22,12 @@ export class TodoCollection {
         return this.nextId;
     }
 
-    getTodoById(id: number) : TodoItem {
+    getTodoById(id: number): TodoItem {
         //return this.todoItems.find(item => item.id === id);//commented this to add the bellow
         return this.itemMap.get(id);
     }
 
-    getTodoItems(includeComplete: boolean) : TodoItem[] {
+    getTodoItems(includeComplete: boolean): TodoItem[] {
         return [...this.itemMap.values()].filter(item => includeComplete || !item.complete);// uses javascript spread operator...
     }
 
@@ -39,5 +44,12 @@ export class TodoCollection {
                 this.itemMap.delete(item.id);
             }
         })
+    }
+
+    getItemCounts(): ItemCounts {
+        return {
+            total: this.itemMap.size,
+            incomplete: this.getTodoItems(false).length
+        };
     }
 }
