@@ -21,7 +21,7 @@ function promptUser() {
     console.clear();
     displayTodoList();
     inquirer.prompt({
-        type: "list",
+        type: "number",
         name: "command",
         message: "Choose option",
         choices: Object.values(Commands)
