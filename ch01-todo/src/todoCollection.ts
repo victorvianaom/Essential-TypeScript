@@ -1,13 +1,13 @@
 import { TodoItem } from "./todoItem";
 
-type ItemCounts = { // The `type` keyword is used to create a `type alias`, which is a convinient way to assign a name to a shape type.
+type ItemCounts = { // The `type` keyword is used to create a `type alias`, which is a convinient way to assign a name to a `shape type`.
     total: number, // a specific combination of names and types is known as a `shape type`
     incomplete: number
 }
 
 export class TodoCollection {
     private nextId: number = 1;
-    private itemMap = new Map<number, TodoItem>();// <> between squared brackets are the types of the key value pairs in the Map
+    protected itemMap = new Map<number, TodoItem>();// <> between squared brackets are the types of the key value pairs in the Map
 
     constructor(public userName: string, public todoItems: TodoItem[] = []) {
         todoItems.forEach(item => this.itemMap.set(item.id, item));
