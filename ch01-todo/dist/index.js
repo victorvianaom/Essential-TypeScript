@@ -16,7 +16,9 @@ function displayTodoList() {
 var Commands;
 (function (Commands) {
     Commands["Add"] = "Add new Task";
+    Commands["Complete"] = "Complete Task";
     Commands["Toggle"] = "Show/Hide Completed";
+    Commands["Purge"] = "Remove Completed Tasks";
     Commands["Quit"] = "Quit";
     Commands["Another"] = "Another";
 })(Commands || (Commands = {}));
@@ -27,6 +29,16 @@ function promptAdd() {
         if (answers["add"] !== "") {
             collection.addTodo(answers["add"]);
         }
+        promptUser();
+    });
+}
+function promptComplete() {
+    console.clear();
+    inquirer.prompt({ type: "checkbox", name: "complete", message: "Mark Tasks Complete",
+        choices: collection.getTodoItems(showCompleted).map(item => ({ name: item.task, value: item.id, checked: item.complete }))
+    }).then(answers => {
+        let completedTasks = answers["complete"];
+        collection.getTodoItems(true).forEach(item => collection.markComplete(item.id, completedTasks.find(id => id === item.id) != undefined));
         promptUser();
     });
 }
@@ -46,6 +58,18 @@ function promptUser() {
                 break;
             case Commands.Add:
                 promptAdd();
+                break;
+            case Commands.Complete:
+                if (collection.getItemCounts().incomplete > 0) {
+                    promptComplete();
+                }
+                else {
+                    promptUser();
+                }
+                break;
+            case Commands.Purge:
+                collection.removeComplete();
+                promptUser();
                 break;
         }
         /*if (answers["command"] !== Commands.Quit) {
