@@ -15,7 +15,7 @@ export class JsonTodoCollection extends TodoCollection {
         this.database = lowdb(new FileSync("Todos.json"));
         if (this.database.has("tasks").value()) {
             let dbItems = this.database.get("tasks").value();
-            dbItems.forEach(item => this.itemMap.set(item.id, new TodoItem(item.id, item.task, item.complete)));
+            dbItems.forEach(item => this.itemMap.set(item.id, new TodoItem(item.id, item.task, item.complete)));///it is spotting an error in `forEach`
         } else {
             this.database.set("tasks", todoItems).write();
             todoItems.forEach(item => this.itemMap.set(item.id, item));
